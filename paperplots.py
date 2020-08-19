@@ -43,11 +43,13 @@ f1 = ax.plot(statesavg, color='#ff7f0e', label="AVG state")
 f2 = ax.plot(statesstd, color='#ff7f0e', alpha=0.5, label="SD states")
 f3 = ax.plot(clustrstd, color='#ff7f0e', linestyle=":", label="SD clusters")
 #ax.axhline(y=0.0, color='r', linestyle='-')
-ax.set(xlabel='timestep',ylabel='AVG // SD')
+ax.set(xlabel='timestep',ylabel='1 - $\\langle$ state $\\rangle$')
 ax.legend(loc = 'lower right')
 ax.xaxis.grid(True, linestyle='dotted')
 ax.yaxis.grid(True, linestyle='dotted')
-ax.set_ylim([-1,1])
+#ax.set_ylim([-1,1])
+#plt.xscale('log')
+#plt.yscale('log')
 
 figstates.savefig('states.png')
 
@@ -144,21 +146,25 @@ figstates.savefig('states.png')
 #
 #heatmap.savefig('heatmap.png')
 #
-#### multipol
-#
-statesraw1 = np.loadtxt(open('./data/stateshigh.csv',"rb"),delimiter=',',skiprows=1)
-statesraw2 = np.loadtxt(open('./data/statesmid.csv',"rb"),delimiter=',',skiprows=1)
-statesraw3 = np.loadtxt(open('./data/states.csv',"rb"),delimiter=',',skiprows=1)
+### multipol
 
-statesavg1 = statesraw1[:,0]
+#statesraw1 = np.loadtxt(open('./data/statessf.csv',"rb"),delimiter=',',skiprows=1)
+statesraw2 = np.loadtxt(open('./data/statesgrid.csv',"rb"),delimiter=',',skiprows=1)
+statesraw3 = np.loadtxt(open('./data/statescl.csv',"rb"),delimiter=',',skiprows=1)
+
+#statesavg1 = 1 - statesraw1[:,0]
+#statesavg2 = 1 - statesraw2[:,0]
+#statesavg3 = 1 - statesraw3[:,0]
+#statesavg1 = statesraw1[:,0]
 statesavg2 = statesraw2[:,0]
 statesavg3 = statesraw3[:,0]
 
 figstates, ax =  plt.subplots()
-f1 = ax.plot(statesavg1, color='#ff7f0e', label="top: $\\phi = 0.027$")
-f2 = ax.plot(statesavg2, color='#ff7f0e', label="mid: $\\phi = 0.0135$")
-f3 = ax.plot(statesavg3, color='#ff7f0e', label="bot: $\\phi = 0.00675$")
+#f1 = ax.plot(statesavg1, color='#ff7f0e', label="top: $\\phi = 0.075$")
+f2 = ax.plot(statesavg2, label="grid")
+f3 = ax.plot(statesavg3, label="csf")
 ax.set(xlabel='timestep',ylabel='$\\langle$ state $\\rangle$')
+#ax.legend(loc = 'lower right')
 ax.legend(loc = 'lower right')
 #ax.yaxis.set_major_locator(ticker.MultipleLocator(0.25))
 #ax.yaxis.set_minor_locator(ticker.MultipleLocator(0.05))
@@ -166,6 +172,8 @@ ax.legend(loc = 'lower right')
 #ax.xaxis.set_major_locator(ticker.MultipleLocator(2000))
 ax.xaxis.grid(True, linestyle='dotted')
 ax.yaxis.grid(True, linestyle='dotted')
+
+#plt.yscale('log')
 ax.set_ylim([-1,1])
 
 figstates.savefig('multipol.png')

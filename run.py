@@ -120,7 +120,7 @@ if __name__ ==  '__main__':
         #argList.append({"continuous": False, "type" : "sf", "influencers":0})
         #argList.append({"continuous": True, "influencers": 0, "skew": newvar})
         #argList.append({"continuous": True, "influencers": 0})
-        argList.append({"continuous": True, "type" : "grid", "influencers":0})
+        argList.append({"continuous": True, "type" : "cl", "influencers":0})
         #print("rand")
         titleList = ["clustered"]        
         filenameList = ["-cl"]
@@ -151,11 +151,11 @@ if __name__ ==  '__main__':
             #models.saveModels(sim, Path(pathData + filename + filenameList[i]).expanduser())
             #fname = './data/multiskew{}.csv'.format(newvar)
             #fname = './data/states{}.csv'.format(statevar)
-            fname = './data/states.csv'
-            #fname = './data/runs.csv'
+            #fname = './data/states.csv'
+            fname = './data/runs.csv'
             #fname = filename
-            models.saveavgdata(sim, fname)
-            #models.savesubdata(sim, fname)
+            #models.saveavgdata(sim, fname)
+            models.savesubdata(sim, fname)
         simtime= time.time()
         print(f'Time to simulate: {simtime-start}s\n')
 

@@ -41,7 +41,7 @@ def getRandomExpo():
 
 STATES = [1, -1] #1 being cooperating, -1 being defecting
 defectorUtility = 0.0
-politicalClimate= 0.0135       # 0.0135 for equil 
+politicalClimate= 0.15       # 0.0135 for equil 
 newPoliticalClimate = 0.5*politicalClimate
 stubbornness = 0.7
 degree = 4 
@@ -51,7 +51,9 @@ skew = -0.25
 initSD = 0.15
 mypalette = ["blue","red","green", "orange", "magenta","cyan","violet", "grey", "yellow"]
 randomness = 0.10
-gridtype = 'cl'
+gridtype = 'cl' # this is actually set in run.py for some reason... overrides this
+gridsize = 33
+nwsize = gridsize**2
 
 args = {"defectorUtility" : defectorUtility, 
         "politicalClimate" : politicalClimate, 
@@ -68,18 +70,18 @@ def simulate(i, newArgs):
     ind = None
 
     if(args["type"] == "cl"):
-        model =ClusteredPowerlawModel(144, args["degree"], skew=args["skew"], friendshipWeightGenerator=friendshipWeightGenerator, initialStateGenerator=initialStateGenerator)
+        model =ClusteredPowerlawModel(nwsize, args["degree"], skew=args["skew"], friendshipWeightGenerator=friendshipWeightGenerator, initialStateGenerator=initialStateGenerator)
     elif(args["type"] == "sf"):
-        model = ScaleFreeModel(144, args["degree"], skew=args["skew"], friendshipWeightGenerator=friendshipWeightGenerator, initialStateGenerator=initialStateGenerator)
+        model = ScaleFreeModel(nwsize, args["degree"], skew=args["skew"], friendshipWeightGenerator=friendshipWeightGenerator, initialStateGenerator=initialStateGenerator)
     elif(args["type"] == "grid"):
         ind = [10,64, 82]
         if(args["degree"]>2): doubleDegree = True
         else:doubleDegree = False
-        model = GridModel(12, skew=args["skew"], doubleDegree =doubleDegree, friendshipWeightGenerator=friendshipWeightGenerator, initialStateGenerator=initialStateGenerator)
+        model = GridModel(gridsize, skew=args["skew"], doubleDegree =doubleDegree, friendshipWeightGenerator=friendshipWeightGenerator, initialStateGenerator=initialStateGenerator)
     elif(args["type"] == "rand"):
-        model = RandomModel(144, args["degree"], skew=args["skew"], friendshipWeightGenerator=friendshipWeightGenerator, initialStateGenerator=initialStateGenerator)
+        model = RandomModel(nwsize, args["degree"], skew=args["skew"], friendshipWeightGenerator=friendshipWeightGenerator, initialStateGenerator=initialStateGenerator)
     else:
-        model = RandomModel(144, args["degree"],  friendshipWeightGenerator=friendshipWeightGenerator, initialStateGenerator=initialStateGenerator)
+        model = RandomModel(nwsize, args["degree"],  friendshipWeightGenerator=friendshipWeightGenerator, initialStateGenerator=initialStateGenerator)
 
     model.addInfluencers(newArgs["influencers"], index=ind, hub=False, allSame=False)
     res = model.runSim(args["timesteps"], clusters=True, drawModel=True, gifname=None) ## gifname goes here!
@@ -625,7 +627,7 @@ def savesubdata(models,filename):
 #-------- drawing functions ---------
 
 def reduce_grid(model):
-    n=12
+    n=gridsize
     for i in range(n):
         for j in range(n):
             if(i!=0 and j!=0 ):
@@ -676,7 +678,8 @@ def draw_model(model, save=True, filenumber = None, outline=None, partition=None
             intensities.append(model.graph.nodes[node]['agent'].state)
     degrees = nx.degree(model.graph)
     #plt.subplot(121)i
-    nx.draw(model.graph, model.pos, node_size=[d[1] * 30 for d in degrees], linewidths=2, node_color =intensities, cmap=plt.cm.RdYlGn,  vmin=-1, vmax=1, edgelist = [])  # REMOVE EDGELIST for auto drawing edges
+    nx.draw(model.graph, model.pos, node_size=[d[1] * 30 for d in degrees], linewidths=2, node_color =intensities, cmap=plt.cm.RdYlGn,  vmin=-1, vmax=1)  # REMOVE EDGELIST for auto drawing edges
+    #nx.draw(model.graph, model.pos, node_size=[d[1] * 30 for d in degrees], linewidths=2, node_color =intensities, cmap=plt.cm.RdYlGn,  vmin=-1, vmax=1, edgelist = [])  # REMOVE EDGELIST for auto drawing edges
     #sm = plt.cm.ScalarMappable(cmap=plt.cm.RdYlGn, norm=plt.Normalize(vmin=-1, vmax=1))
     #sm.set_array([])
     #cbar = plt.colorbar(sm)
