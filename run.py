@@ -40,8 +40,8 @@ if __name__ ==  '__main__':
     plt.rcParams["svg.fonttype"] = "none"
 
     #Constants and Variables
-    numberOfSimulations = 20 #10^3
-    numberOfProcessors = 4 #Prosesser kan endres
+    numberOfSimulations = 400 #10^3
+    numberOfProcessors = 100 #Prosesser kan endres
 
     start = time.time()
     pool=Pool( processes = numberOfProcessors)
@@ -56,8 +56,10 @@ if __name__ ==  '__main__':
     runs = 2   ## has to be even for multiple runs also n is actually n-1 because I'm bad
 
     ### comment out all below for single run
-    #var = 'skew'
-    #
+    #var = "newPoliticalClimate"
+    
+    #grid = [0.025, 0.0375, 0.075, 0.1]
+
     ### log grid, only valid on range [-1,1]
 
     #steps = int(runs/2)
@@ -93,8 +95,9 @@ if __name__ ==  '__main__':
     #print (grid)
 
     for run in range(runs-1):
+    #for run in grid :
         print("Started iteration: ", run)
-        #newvar = grid[run]
+        newvar = run
         #statevar = modelargs['politicalClimate']
 
         #filename = f'sim2c-50s-4000-sw0_6-2opposing-zealots'
@@ -120,9 +123,10 @@ if __name__ ==  '__main__':
         #argList.append({"continuous": False, "type" : "sf", "influencers":0})
         #argList.append({"continuous": True, "influencers": 0, "skew": newvar})
         #argList.append({"continuous": True, "influencers": 0})
-        argList.append({"continuous": True, "type" : "cl", "influencers":0})
+        argList.append({"continuous": True, "influencers" : 0, "type" : "cl"})
+        #argList.append({"continuous": True, "type" : "cl", "influencers" : 0})
         #print("rand")
-        titleList = ["clustered"]        
+        titleList = ["clustered"]
         filenameList = ["-cl"]
         for i in range(len(argList)):
             sim = pool.starmap(models.simulate, zip(range(numberOfSimulations), repeat(argList[i])))
@@ -149,13 +153,13 @@ if __name__ ==  '__main__':
             #plt.draw()
             #print("Finished with ", titleList[i])
             #models.saveModels(sim, Path(pathData + filename + filenameList[i]).expanduser())
-            #fname = './data/multiskew{}.csv'.format(newvar)
+            #fname = './data/states{}{}.csv'.format(var,newvar)
             #fname = './data/states{}.csv'.format(statevar)
-            #fname = './data/states.csv'
-            fname = './data/runs.csv'
+            fname = './data/states{}.csv'.format(run)
+            fname2 = './data/runs{}.csv'.format(run)
             #fname = filename
-            #models.saveavgdata(sim, fname)
-            models.savesubdata(sim, fname)
+            models.saveavgdata(sim, fname)
+            models.savesubdata(sim, fname2)
         simtime= time.time()
         print(f'Time to simulate: {simtime-start}s\n')
 

@@ -11,6 +11,7 @@ from scipy.stats import truncnorm
 import os
 from community import community_louvain
 #import community
+#import community as community_louvain
 from operator import itemgetter
 import heapq
 from IPython.display import Image
@@ -41,11 +42,11 @@ def getRandomExpo():
 
 STATES = [1, -1] #1 being cooperating, -1 being defecting
 defectorUtility = 0.0
-politicalClimate= 0.15       # 0.0135 for equil 
-newPoliticalClimate = 0.5*politicalClimate
-stubbornness = 0.7
-degree = 4 
-timesteps= 15000  #timesteps
+politicalClimate = 0.0105       # 0.0135 for equil 
+newPoliticalClimate = 1*politicalClimate 
+stubbornness = 0.6
+degree = 8
+timesteps= 300000  #timesteps
 continuous = True
 skew = -0.25
 initSD = 0.15
@@ -65,6 +66,7 @@ def getargs():
 def simulate(i, newArgs):
     setArgs(newArgs)
     global args
+    #print (args)
     friendshipWeightGenerator = get_truncated_normal(0.5, 0.15, 0, 1) 
     initialStateGenerator = get_truncated_normal(args["skew"], args["initSD"], -1, 1)
     ind = None
@@ -367,9 +369,11 @@ class Model:
 
             self.avgNbAgreeingList.append(avgFriends)
 
-            global args
-            if(i == 1500 and (args["newPoliticalClimate"] != args["politicalClimate"])):
-                self.politicalClimate = args["newPoliticalClimate"]
+            global args # 3975
+            #if(i == 4695 and (args["newPoliticalClimate"] != args["politicalClimate"])):
+            #    self.politicalClimate = args["newPoliticalClimate"]
+            #if(i == 7000):
+            #    self.addInfluencers(1, index=None, hub=True, allSame=False)
 
 
             #self.politicalClimate += (ratio-0.5)*0.001 #change the political climate depending on the ratio of cooperators

@@ -32,26 +32,57 @@ import matplotlib.ticker as ticker
 
 ### Standard plot
 
-statesraw = np.loadtxt(open('./data/states.csv',"rb"),delimiter=',',skiprows=1)
+#statesraw = np.loadtxt(open('./data/states.csv',"rb"),delimiter=',',skiprows=1)
+#
+#statesavg = statesraw[:,0]
+#statesstd = statesraw[:,1]
+#clustrstd = statesraw[:,2]
+#
+#figstates, ax =  plt.subplots()
+#f1 = ax.plot(statesavg, color='#ff7f0e', label="AVG state")
+#f2 = ax.plot(statesstd, color='#ff7f0e', alpha=0.5, label="SD states")
+#f3 = ax.plot(clustrstd, color='#ff7f0e', linestyle=":", label="SD clusters")
+##ax.axhline(y=0.0, color='r', linestyle='-')
+#ax.set(xlabel='timestep',ylabel='1 - $\\langle$ state $\\rangle$')
+#ax.legend(loc = 'lower right')
+#ax.xaxis.grid(True, linestyle='dotted')
+#ax.yaxis.grid(True, linestyle='dotted')
+##ax.set_ylim([-1,1])
+##plt.xscale('log')
+##plt.yscale('log')
+#
+#figstates.savefig('states.png')
 
-statesavg = statesraw[:,0]
-statesstd = statesraw[:,1]
-clustrstd = statesraw[:,2]
+# from separated data
 
-figstates, ax =  plt.subplots()
-f1 = ax.plot(statesavg, color='#ff7f0e', label="AVG state")
-f2 = ax.plot(statesstd, color='#ff7f0e', alpha=0.5, label="SD states")
-f3 = ax.plot(clustrstd, color='#ff7f0e', linestyle=":", label="SD clusters")
-#ax.axhline(y=0.0, color='r', linestyle='-')
-ax.set(xlabel='timestep',ylabel='1 - $\\langle$ state $\\rangle$')
-ax.legend(loc = 'lower right')
-ax.xaxis.grid(True, linestyle='dotted')
-ax.yaxis.grid(True, linestyle='dotted')
-#ax.set_ylim([-1,1])
-#plt.xscale('log')
-#plt.yscale('log')
+#heatdataraw = np.array([])
+#heatfiles = sorted(glob.glob('./data/heatplot/runs*'))
+#for f in heatfiles : 
+#    heatdataraw = np.append(heatdataraw,np.loadtxt(f,delimiter=','),axis=0)
+#    
+##heatdataraw = np.loadtxt('./data/heatplot/runs.csv',delimiter=',')
+##heatdataraw = np.append(heatdataraw,np.loadtxt('./data/heatplot/runs1.csv',delimiter=','),axis=0)
+##heatdataraw = np.append(heatdataraw,np.loadtxt('./data/heatplot/runs2.csv',delimiter=','),axis=0)
+#
+##heatdataraw = heatdataraw[:,0:300000]
+#
+##print (heatdataraw.shape)
+#print (len(heatdataraw))
+#print (len(heatdataraw[0]))
+#
+#statesavg = heatdataraw.mean(0)
+#
+#figstates, ax =  plt.subplots()
+#ax.plot(statesavg, color='#ff7f0e', label="AVG state")
+#ax.set(xlabel='timestep',ylabel='$\\langle$ state $\\rangle$')
+#ax.xaxis.grid(True, linestyle='dotted')
+#ax.yaxis.grid(True, linestyle='dotted')
+##ax.set_ylim([-1,1])
+##plt.xscale('log')
+##plt.yscale('log')
+##
+#figstates.savefig('states.png')
 
-figstates.savefig('states.png')
 
 ### Evolving STD
 
@@ -101,7 +132,8 @@ figstates.savefig('states.png')
 ### heatmap
 
 #heatdataraw = np.loadtxt('./data/runs.csv',delimiter=',')
-#
+#heatdataraw = heatdataraw[:,0:150000]
+
 #elsinrow = len(heatdataraw[0])
 #ts = range (elsinrow)
 #times = []
@@ -115,7 +147,7 @@ figstates.savefig('states.png')
 #
 #binsize = 100
 #xbins = np.arange(0,elsinrow,binsize)
-#ybins = np.linspace(-1,1,elsinrow/binsize)
+#ybins = np.linspace(-1.0,1.0,elsinrow/binsize)
 #
 #def isnan (n) :
 #    return n != n
@@ -138,7 +170,7 @@ figstates.savefig('states.png')
 #heatmap, ax = plt.subplots()
 #
 ##im = ax.pcolormesh(xbins,ybins,heatdatabinned,cmap='inferno',shading='gouraud',vmin=0,vmax=binsize*10)
-#im = ax.pcolormesh(xbins,ybins,heatdatabinned,cmap='inferno',vmin=0,vmax=binsize*10)
+#im = ax.pcolormesh(xbins,ybins,heatdatabinned,cmap='inferno',vmin=0,vmax=binsize*1)
 #ax.set(xlabel='timestep', ylabel='$\\langle$ state $\\rangle$')
 #
 #cbar = heatmap.colorbar(im)
@@ -148,35 +180,35 @@ figstates.savefig('states.png')
 #
 ### multipol
 
-#statesraw1 = np.loadtxt(open('./data/statessf.csv',"rb"),delimiter=',',skiprows=1)
-statesraw2 = np.loadtxt(open('./data/statesgrid.csv',"rb"),delimiter=',',skiprows=1)
-statesraw3 = np.loadtxt(open('./data/statescl.csv',"rb"),delimiter=',',skiprows=1)
-
-#statesavg1 = 1 - statesraw1[:,0]
-#statesavg2 = 1 - statesraw2[:,0]
-#statesavg3 = 1 - statesraw3[:,0]
-#statesavg1 = statesraw1[:,0]
-statesavg2 = statesraw2[:,0]
-statesavg3 = statesraw3[:,0]
-
-figstates, ax =  plt.subplots()
-#f1 = ax.plot(statesavg1, color='#ff7f0e', label="top: $\\phi = 0.075$")
-f2 = ax.plot(statesavg2, label="grid")
-f3 = ax.plot(statesavg3, label="csf")
-ax.set(xlabel='timestep',ylabel='$\\langle$ state $\\rangle$')
+##statesraw1 = np.loadtxt(open('./data/statessf.csv',"rb"),delimiter=',',skiprows=1)
+#statesraw2 = np.loadtxt(open('./data/statesgrid.csv',"rb"),delimiter=',',skiprows=1)
+#statesraw3 = np.loadtxt(open('./data/statescl.csv',"rb"),delimiter=',',skiprows=1)
+#
+##statesavg1 = 1 - statesraw1[:,0]
+##statesavg2 = 1 - statesraw2[:,0]
+##statesavg3 = 1 - statesraw3[:,0]
+##statesavg1 = statesraw1[:,0]
+#statesavg2 = statesraw2[:,0]
+#statesavg3 = statesraw3[:,0]
+#
+#figstates, ax =  plt.subplots()
+##f1 = ax.plot(statesavg1, color='#ff7f0e', label="top: $\\phi = 0.075$")
+#f2 = ax.plot(statesavg2, label="grid")
+#f3 = ax.plot(statesavg3, label="csf")
+#ax.set(xlabel='timestep',ylabel='$\\langle$ state $\\rangle$')
+##ax.legend(loc = 'lower right')
 #ax.legend(loc = 'lower right')
-ax.legend(loc = 'lower right')
-#ax.yaxis.set_major_locator(ticker.MultipleLocator(0.25))
-#ax.yaxis.set_minor_locator(ticker.MultipleLocator(0.05))
-#ax.yaxis.set_major_locator(ticker.MultipleLocator(6000))
-#ax.xaxis.set_major_locator(ticker.MultipleLocator(2000))
-ax.xaxis.grid(True, linestyle='dotted')
-ax.yaxis.grid(True, linestyle='dotted')
-
-#plt.yscale('log')
-ax.set_ylim([-1,1])
-
-figstates.savefig('multipol.png')
+##ax.yaxis.set_major_locator(ticker.MultipleLocator(0.25))
+##ax.yaxis.set_minor_locator(ticker.MultipleLocator(0.05))
+##ax.yaxis.set_major_locator(ticker.MultipleLocator(6000))
+##ax.xaxis.set_major_locator(ticker.MultipleLocator(2000))
+#ax.xaxis.grid(True, linestyle='dotted')
+#ax.yaxis.grid(True, linestyle='dotted')
+#
+##plt.yscale('log')
+#ax.set_ylim([-1,1])
+#
+#figstates.savefig('multipol.png')
 
 ### multiinit
 
