@@ -42,11 +42,11 @@ def getRandomExpo():
 
 STATES = [1, -1] #1 being cooperating, -1 being defecting
 defectorUtility = 0.0
-politicalClimate = 0.0105       # 0.0135 for equil 
+politicalClimate = 0.015       # 0.0103 for equil 
 newPoliticalClimate = 1*politicalClimate 
 stubbornness = 0.6
 degree = 8
-timesteps= 300000  #timesteps
+timesteps= 150000  #timesteps
 continuous = True
 skew = -0.25
 initSD = 0.15
