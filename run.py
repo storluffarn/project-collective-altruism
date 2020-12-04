@@ -40,7 +40,7 @@ if __name__ ==  '__main__':
     plt.rcParams["svg.fonttype"] = "none"
 
     #Constants and Variables
-    numberOfSimulations = 400 #10^3
+    numberOfSimulations = 300 #10^3
     numberOfProcessors = 100 #Prosesser kan endres
 
     start = time.time()
@@ -156,10 +156,10 @@ if __name__ ==  '__main__':
             #fname = './data/states{}{}.csv'.format(var,newvar)
             #fname = './data/states{}.csv'.format(statevar)
             fname = './data/states{}.csv'.format(run)
-            fname2 = './data/runs{}.csv'.format(run)
+            #fname2 = './data/runs{}.csv'.format(run)
             #fname = filename
             models.saveavgdata(sim, fname)
-            models.savesubdata(sim, fname2)
+            #models.savesubdata(sim, fname2)
         simtime= time.time()
         print(f'Time to simulate: {simtime-start}s\n')
 

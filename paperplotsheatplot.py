@@ -7,17 +7,30 @@ from scipy import stats
 from scipy.interpolate import griddata
 import matplotlib.ticker as ticker
 
+systemsize = 33**2
+
 # from separated data
 
 heatdataraw = np.array([])
+heatfiles = sorted(glob.glob('./runs*'))
+it = 0
+for f in heatfiles : 
+    if (it == 0) :
+        heatdataraw = np.loadtxt(open(f,"rb"),delimiter=',',skiprows=0)
+    else :
+        heatdataraw = np.append(heatdataraw,np.loadtxt(f,delimiter=','),axis=0)
+    it = it + 1
+
+#heatdataraw = np.array([])
 #heatfiles = sorted(glob.glob('./runs*'))
 #for f in heatfiles : 
 #    heatdataraw = np.append(heatdataraw,np.loadtxt(f,delimiter=','),axis=0)
     
-heatdataraw = np.loadtxt('./runs1.csv',delimiter=',')
-heatdataraw = np.append(heatdataraw,np.loadtxt('./runs2.csv',delimiter=','),axis=0)
-heatdataraw = np.append(heatdataraw,np.loadtxt('./runs3.csv',delimiter=','),axis=0)
-heatdataraw = np.append(heatdataraw,np.loadtxt('./runs4.csv',delimiter=','),axis=0)
+#heatdataraw = np.loadtxt('./runs1.csv',delimiter=',')
+#heatdataraw = np.append(heatdataraw,np.loadtxt('./runs2.csv',delimiter=','),axis=0)
+#heatdataraw = np.append(heatdataraw,np.loadtxt('./runs3.csv',delimiter=','),axis=0)
+
+#heatdataraw = np.loadtxt('./runs0.csv',delimiter=',')
 
 #heatdataraw = heatdataraw[:,0:300000]
 
@@ -25,18 +38,18 @@ heatdataraw = np.append(heatdataraw,np.loadtxt('./runs4.csv',delimiter=','),axis
 print (len(heatdataraw))
 print (len(heatdataraw[0]))
 
-statesavg = heatdataraw.mean(0)
-
-figstates, ax =  plt.subplots()
-ax.plot(statesavg, color='#ff7f0e', label="AVG state")
-ax.set(xlabel='timestep',ylabel='$\\langle$ state $\\rangle$')
-ax.xaxis.grid(True, linestyle='dotted')
-ax.yaxis.grid(True, linestyle='dotted')
+#statesavg = heatdataraw.mean(0)
+#
+#figstates, ax =  plt.subplots()
+#ax.plot(statesavg, color='#ff7f0e', label="AVG state")
+#ax.set(xlabel='timestep',ylabel='$\\langle$ state $\\rangle$')
+#ax.xaxis.grid(True, linestyle='dotted')
+#ax.yaxis.grid(True, linestyle='dotted')
 #ax.set_ylim([-1,1])
 #plt.xscale('log')
 #plt.yscale('log')
 #
-figstates.savefig('states.png')
+#figstates.savefig('states.png')
 
 ### heatmap
 
@@ -51,6 +64,7 @@ for x in range (len(heatdataraw)) :
     times.append(ts)
 
 times = np.array(times)
+#times = times / systemsize
 times = times.flatten()
 heatdata = heatdataraw.flatten()
 
@@ -79,8 +93,9 @@ ybins = ybins[:-1]
 heatmap, ax = plt.subplots()
 
 #im = ax.pcolormesh(xbins,ybins,heatdatabinned,cmap='inferno',shading='gouraud',vmin=0,vmax=binsize*10)
-im = ax.pcolormesh(xbins,ybins,heatdatabinned,cmap='inferno',vmin=0,vmax=binsize*1)
-ax.set(xlabel='timestep', ylabel='$\\langle$ state $\\rangle$')
+#im = ax.pcolormesh(xbins,ybins,heatdatabinned,cmap='inferno',vmin=0,vmax=binsize*1,)
+im = ax.imshow(heatdatabinned,cmap='inferno',vmin=0,vmax=binsize*1,extent=[0,275,-1,1],interpolation='nearest',origin='lower',aspect='auto')
+ax.set(xlabel='time [timestep / system size]', ylabel='cooperativity')
 
 cbar = heatmap.colorbar(im)
 cbar.ax.set_ylabel('counts')

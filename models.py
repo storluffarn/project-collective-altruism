@@ -42,7 +42,7 @@ def getRandomExpo():
 
 STATES = [1, -1] #1 being cooperating, -1 being defecting
 defectorUtility = 0.0
-politicalClimate = 0.015       # 0.0103 for equil 
+politicalClimate = 0.05       # 0.0103 for equil 
 newPoliticalClimate = 1*politicalClimate 
 stubbornness = 0.6
 degree = 8
