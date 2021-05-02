@@ -7,6 +7,15 @@ import math
 from scipy import stats
 from scipy.interpolate import griddata
 import matplotlib.ticker as ticker
+import matplotlib.pylab as pylab
+
+params = {'legend.fontsize': 'x-large',
+          'axes.labelsize': 'x-large',
+          'axes.titlesize':'x-large',
+          'xtick.labelsize':'x-large',
+          'ytick.labelsize':'x-large',
+          'figure.autolayout':True}
+pylab.rcParams.update(params)
 
 systemsize = 33**2
 
@@ -61,7 +70,7 @@ xaxis150k = np.array(list(range(len(statescllong)))) / systemsize
 figtype, ax =  plt.subplots()
 ax.plot(xaxis50k,statescl,label="CSF")
 ax.plot(xaxis50k,statesgr,label="Grid")
-ax.set(xlabel='time [timestep / system size]',ylabel='$cooperativity')
+ax.set(xlabel='time [timestep / system size]',ylabel='cooperativity')
 ax.legend(loc = 'lower right')
 ax.yaxis.set_major_locator(ticker.MultipleLocator(0.25))
 ax.yaxis.set_minor_locator(ticker.MultipleLocator(0.05))
@@ -74,11 +83,11 @@ ax.set_ylim([-1,1])
 figtype.savefig('networktype.png')
 
 figdeg, ax =  plt.subplots()
-ax.plot(xaxis50k,statesdeg2,label="$\\langle k \\rangle = 2$")
-ax.plot(xaxis50k,statesdeg4,label="$\\langle k \\rangle = 4$")
-ax.plot(xaxis50k,statescl,label="$\\langle k \\rangle = 8$")
-ax.plot(xaxis50k,statesdeg16,label="$\\langle k \\rangle = 16$")
-ax.plot(xaxis50k,statesdeg32,label="$\\langle k \\rangle = 32$")
+ax.plot(xaxis50k,statesdeg2,label="$\\langle k \\rangle = 4$")
+ax.plot(xaxis50k,statesdeg4,label="$\\langle k \\rangle = 8$")
+ax.plot(xaxis50k,statescl,label="$\\langle k \\rangle = 16$")
+ax.plot(xaxis50k,statesdeg16,label="$\\langle k \\rangle = 31$")
+ax.plot(xaxis50k,statesdeg32,label="$\\langle k \\rangle = 61$")
 
 ax.set(xlabel='time [timestep / system size]',ylabel='cooperativity')
 ax.legend(loc = 'lower right')
@@ -133,7 +142,7 @@ figinf.savefig('influencer.png')
 
 figcomp, ax =  plt.subplots()
 ax.plot(xaxis50k,statescl,label="CSF")
-ax.plot(xaxis50k,statesdeg32,label="$\\langle k \\rangle$ = 32")
+ax.plot(xaxis50k,statesdeg32,label="$\\langle k \\rangle$ = 61")
 ax.plot(xaxis50k,statesnewpol1, label = "$\\phi = 0.100$")
 ax.plot(xaxis50k,statesinfcl,label="CSF + Influencer")
 
@@ -244,7 +253,7 @@ print (ratespol)
 print (ratesdeg)
 print (ratesinf)
 
-xvals = [2,4,8,16,32]
+xvals = [4,8,16,31,61]
 
 figrates1, ax =  plt.subplots()
 ax.plot(xvals,ratesdeg,'b*',label="cl")

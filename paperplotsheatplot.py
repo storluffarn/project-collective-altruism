@@ -6,6 +6,15 @@ import glob
 from scipy import stats
 from scipy.interpolate import griddata
 import matplotlib.ticker as ticker
+import matplotlib.pylab as pylab
+
+params = {'legend.fontsize': 'x-large',
+          'axes.labelsize': 'x-large',
+          'axes.titlesize':'x-large',
+          'xtick.labelsize':'x-large',
+          'ytick.labelsize':'x-large',
+          'figure.autolayout':True}
+pylab.rcParams.update(params)
 
 systemsize = 33**2
 

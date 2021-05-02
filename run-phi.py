@@ -58,7 +58,7 @@ if __name__ ==  '__main__':
     ### comment out all below for single run
     #var = "newPoliticalClimate"
     
-    grid = [0.05, 0.075]
+    grid = [0.01, 0.025, 0.05, 0.1, 0.25]
 
     ### log grid, only valid on range [-1,1]
 
@@ -155,7 +155,7 @@ if __name__ ==  '__main__':
             #models.saveModels(sim, Path(pathData + filename + filenameList[i]).expanduser())
             #fname = './data/states{}{}.csv'.format(var,newvar)
             #fname = './data/states{}.csv'.format(statevar)
-            fname = './data/states{}.csv'.format(run)
+            fname = './data/paraphi{}.csv'.format(run)
             #fname2 = './data/runs{}.csv'.format(run)
             #fname = filename
             models.saveavgdata(sim, fname)

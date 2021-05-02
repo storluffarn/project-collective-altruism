@@ -46,7 +46,7 @@ politicalClimate = 0.05       # 0.0103 for equil
 newPoliticalClimate = 1*politicalClimate 
 stubbornness = 0.6
 degree = 8
-timesteps= 150000  #timesteps
+timesteps= 100000  #timesteps
 continuous = True
 skew = -0.25
 initSD = 0.15
@@ -54,11 +54,14 @@ mypalette = ["blue","red","green", "orange", "magenta","cyan","violet", "grey", 
 randomness = 0.10
 gridtype = 'cl' # this is actually set in run.py for some reason... overrides this
 gridsize = 33
-nwsize = gridsize**2
+nwsize = 2000
+friendship = 0.5
+friendshipSD = 0.15
+clustering = 0.5
 
 args = {"defectorUtility" : defectorUtility, 
         "politicalClimate" : politicalClimate, 
-        "stubbornness": stubbornness, "degree":degree, "timesteps" : timesteps, "continuous" : continuous, "type" : gridtype, "skew": skew, "initSD": initSD, "newPoliticalClimate": newPoliticalClimate, "randomness" : randomness}
+        "stubbornness": stubbornness, "degree":degree, "timesteps" : timesteps, "continuous" : continuous, "type" : gridtype, "skew": skew, "initSD": initSD, "newPoliticalClimate": newPoliticalClimate, "randomness" : randomness, "friendship" : friendship, "friendshipSD" : friendshipSD, "clustering" : clustering}
 
 def getargs():
     return args
@@ -67,12 +70,16 @@ def simulate(i, newArgs):
     setArgs(newArgs)
     global args
     #print (args)
-    friendshipWeightGenerator = get_truncated_normal(0.5, 0.15, 0, 1) 
+    friendshipWeightGenerator = get_truncated_normal(args["friendship"], args["friendshipSD"], 0, 1) 
     initialStateGenerator = get_truncated_normal(args["skew"], args["initSD"], -1, 1)
     ind = None
 
+    #print("1")
+
     if(args["type"] == "cl"):
+        #print("2")
         model =ClusteredPowerlawModel(nwsize, args["degree"], skew=args["skew"], friendshipWeightGenerator=friendshipWeightGenerator, initialStateGenerator=initialStateGenerator)
+        #print("3")
     elif(args["type"] == "sf"):
         model = ScaleFreeModel(nwsize, args["degree"], skew=args["skew"], friendshipWeightGenerator=friendshipWeightGenerator, initialStateGenerator=initialStateGenerator)
     elif(args["type"] == "grid"):
@@ -85,6 +92,15 @@ def simulate(i, newArgs):
     else:
         model = RandomModel(nwsize, args["degree"],  friendshipWeightGenerator=friendshipWeightGenerator, initialStateGenerator=initialStateGenerator)
 
+    #degs = nx.degree(model.graph)
+    #avgdeg = 0;
+    #for n in degs :
+    #    avgdeg = avgdeg + n[1]
+
+    #avgdeg = avgdeg / nwsize
+
+    #print(avgdeg)
+    
     model.addInfluencers(newArgs["influencers"], index=ind, hub=False, allSame=False)
     res = model.runSim(args["timesteps"], clusters=True, drawModel=True, gifname=None) ## gifname goes here!
     return model
@@ -506,7 +522,7 @@ class ClusteredPowerlawModel(Model):
     def __init__(self, n, m, skew = 0, **kwargs):
         super().__init__(**kwargs)
 
-        self.graph = nx.powerlaw_cluster_graph(n, m, 0.5)
+        self.graph = nx.powerlaw_cluster_graph(n, m, clustering)
         self.populateModel(n, skew)
 
 class RandomModel(Model):

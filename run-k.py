@@ -40,8 +40,8 @@ if __name__ ==  '__main__':
     plt.rcParams["svg.fonttype"] = "none"
 
     #Constants and Variables
-    numberOfSimulations = 200 #10^3
-    numberOfProcessors = 100 #Prosesser kan endres
+    numberOfSimulations = 1 #10^3
+    numberOfProcessors = 1 #Prosesser kan endres
 
     start = time.time()
     pool=Pool( processes = numberOfProcessors)
@@ -58,7 +58,7 @@ if __name__ ==  '__main__':
     ### comment out all below for single run
     #var = "newPoliticalClimate"
     
-    grid = [0.05, 0.075]
+    grid = [2, 4, 8, 16, 32]
 
     ### log grid, only valid on range [-1,1]
 
@@ -121,7 +121,7 @@ if __name__ ==  '__main__':
         #argList.append({"continuous": False, "type" : "cl", "influencers":0})
         #argList.append({"continuous": True, "type" : "sf", "influencers":0})
         #argList.append({"continuous": False, "type" : "sf", "influencers":0})
-        argList.append({"influencers": 0, "politicalClimate": run})
+        argList.append({"influencers": 0, "degree": run})
         #argList.append({"continuous": True, "influencers": 0})
         #argList.append({"continuous": True, "influencers" : 0, "type" : "cl"})
         #argList.append({"continuous": True, "type" : "cl", "influencers" : 0})
@@ -155,7 +155,7 @@ if __name__ ==  '__main__':
             #models.saveModels(sim, Path(pathData + filename + filenameList[i]).expanduser())
             #fname = './data/states{}{}.csv'.format(var,newvar)
             #fname = './data/states{}.csv'.format(statevar)
-            fname = './data/states{}.csv'.format(run)
+            fname = './data/parak{}.csv'.format(run)
             #fname2 = './data/runs{}.csv'.format(run)
             #fname = filename
             models.saveavgdata(sim, fname)

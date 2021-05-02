@@ -6,6 +6,15 @@ import glob
 from scipy import stats
 from scipy.interpolate import griddata
 import matplotlib.ticker as ticker
+import matplotlib.pylab as pylab
+
+params = {'legend.fontsize': 'x-large',
+          'axes.labelsize': 'x-large',
+          'axes.titlesize':'x-large',
+          'xtick.labelsize':'x-large',
+          'ytick.labelsize':'x-large',
+          'figure.autolayout':True}
+pylab.rcParams.update(params)
 
 systemsize = 33**2
 
@@ -51,7 +60,7 @@ print(np.shape(statesavg))
 
 figstates, ax =  plt.subplots()
 ax.plot(xaxisvals, statesavg, color='#ff7f0e', label="AVG cooperativity")
-ax.plot(xaxisvals, statesstd, color='#ff7f0e', alpha=0.5, label="SD cooperativity")
+ax.plot(xaxisvals, statesstd, color='#ff7f0e', linestyle='dashed', label="SD cooperativity")
 #ax.plot(xaxisvals, clustrstd, color='#ff7f0e', linestyle=":", label="SD cluster cooperativity")
 #ax.axhline(y=0.0, color='r', linestyle='-')
 ax.set(xlabel='time [timestep / system size]',ylabel='cooperativity')

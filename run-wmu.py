@@ -58,7 +58,7 @@ if __name__ ==  '__main__':
     ### comment out all below for single run
     #var = "newPoliticalClimate"
     
-    grid = [0.05, 0.075]
+    grid = [0.025, 0.075, 0.15, 0.25, 0.45]
 
     ### log grid, only valid on range [-1,1]
 
@@ -121,7 +121,7 @@ if __name__ ==  '__main__':
         #argList.append({"continuous": False, "type" : "cl", "influencers":0})
         #argList.append({"continuous": True, "type" : "sf", "influencers":0})
         #argList.append({"continuous": False, "type" : "sf", "influencers":0})
-        argList.append({"influencers": 0, "politicalClimate": run})
+        argList.append({"influencers": 0, "friendshipSD": run})
         #argList.append({"continuous": True, "influencers": 0})
         #argList.append({"continuous": True, "influencers" : 0, "type" : "cl"})
         #argList.append({"continuous": True, "type" : "cl", "influencers" : 0})
@@ -155,7 +155,7 @@ if __name__ ==  '__main__':
             #models.saveModels(sim, Path(pathData + filename + filenameList[i]).expanduser())
             #fname = './data/states{}{}.csv'.format(var,newvar)
             #fname = './data/states{}.csv'.format(statevar)
-            fname = './data/states{}.csv'.format(run)
+            fname = './data/parawmu{}.csv'.format(run)
             #fname2 = './data/runs{}.csv'.format(run)
             #fname = filename
             models.saveavgdata(sim, fname)
